@@ -1,45 +1,20 @@
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalDistributionDsl
 
-plugins {
-    kotlin("multiplatform") version "1.9.21"
-    id("maven-publish")
-}
-
-group = "org.isk"
-version = "1.0.0"
-
-repositories {
-    mavenCentral()
-}
-
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["kotlin"])
-        }
-    }
-}
-
 val koolVersion = "0.14.0"
 val lwjglVersion = "3.3.3"
 val physxJniVersion = "2.3.1"
 val targetPlatforms = listOf("natives-windows", "natives-linux", "natives-macos")
 
 kotlin {
-    withSourcesJar(true)
-    jvm {
-        jvmToolchain(21)
+    js(IR) {
+        binaries.executable()
+        browser {
+            @OptIn(ExperimentalDistributionDsl::class)
+            distribution {
+                outputDirectory.set(File("${rootDir}/dist/js"))
+            }
+        }
     }
-//    js(IR) {
-//        binaries.executable()
-//        browser {
-//            @OptIn(ExperimentalDistributionDsl::class)
-//            distribution {
-//                outputDirectory.set(File("${rootDir}/dist/js"))
-//            }
-//        }
-//    }
 
     sourceSets {
         commonMain.dependencies {
@@ -67,11 +42,5 @@ kotlin {
                 }
             }
         }
-
-//        val jsMain by getting {
-//            dependencies {
-//                // add additional js-specific dependencies here...
-//            }
-//        }
     }
 }

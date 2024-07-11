@@ -1,8 +1,8 @@
 package org.isk.molekule.bind
 
 import org.apache.commons.lang3.SystemUtils
-import org.isk.molekule.core.Environment
 import org.isk.molekule.bind.lammps.toLammpsDumpFile
+import org.isk.molekule.core.Environment
 import java.io.File
 import java.io.FileOutputStream
 

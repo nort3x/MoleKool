@@ -2,17 +2,13 @@ package org.isk.molekule.visual.plugins
 
 import de.fabmax.kool.math.randomF
 import de.fabmax.kool.math.set
-import de.fabmax.kool.modules.ksl.KslLitShader
 import de.fabmax.kool.modules.ksl.KslPbrShader
-import de.fabmax.kool.pipeline.TextureCube
 import de.fabmax.kool.scene.addColorMesh
 import de.fabmax.kool.util.Color
 import org.isk.molekule.core.Environment
 import org.isk.molekule.core.atom.Atom
-import org.isk.molekule.core.geomertry.point.Point
 import org.isk.molekule.visual.KoolVisualizer
 import org.isk.molekule.visual.utils.vec3
-import kotlin.math.log
 import kotlin.math.tanh
 import kotlin.random.Random
 

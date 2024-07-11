@@ -3,7 +3,6 @@ package org.isk.molekule.core.utils
 import org.isk.molekule.core.geomertry.Box
 import org.isk.molekule.core.geomertry.point.Point
 import org.isk.molekule.core.geomertry.point.length
-import kotlin.math.abs
 
 fun Sequence<Point>.periodicReorder(box: Box, removeEscapedPoints: Boolean = false): Sequence<Point> {
 

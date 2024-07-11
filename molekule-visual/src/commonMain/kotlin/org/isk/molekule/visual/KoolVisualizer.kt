@@ -7,7 +7,6 @@ import de.fabmax.kool.defaultKoolConfig
 import de.fabmax.kool.math.Vec3f
 import de.fabmax.kool.scene.OrbitInputTransform
 import de.fabmax.kool.scene.defaultOrbitCamera
-import de.fabmax.kool.scene.orbitCamera
 import de.fabmax.kool.scene.scene
 import de.fabmax.kool.util.Color
 import org.isk.molekule.core.Environment
