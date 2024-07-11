@@ -9,7 +9,7 @@ allprojects {
     }
 
     group = "org.isk"
-    version = "1.0.0-alpha.1"
+    version = "1.0.0-xi.0"
 }
 
 subprojects {
