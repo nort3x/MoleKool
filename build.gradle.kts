@@ -20,8 +20,21 @@ subprojects {
     }
 
     publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/Independent-Society-of-Knowledge/MoleKule")
+                credentials {
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                }
+            }
+        }
         publications {
             create<MavenPublication>("maven") {
+                from(components["kotlin"])
+            }
+            register<MavenPublication>("gpr") {
                 from(components["kotlin"])
             }
         }
