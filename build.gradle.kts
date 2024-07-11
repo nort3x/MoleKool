@@ -9,7 +9,7 @@ allprojects {
     }
 
     group = "org.isk"
-    version = "1.0.0"
+    version = "1.0.0-alpha.1"
 }
 
 subprojects {
@@ -31,9 +31,6 @@ subprojects {
             }
         }
         publications {
-            create<MavenPublication>("maven") {
-                from(components["kotlin"])
-            }
             register<MavenPublication>("gpr") {
                 from(components["kotlin"])
             }
