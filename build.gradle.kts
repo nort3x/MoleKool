@@ -9,7 +9,7 @@ allprojects {
     }
 
     group = "org.isk"
-    version = "1.0.0-xi.0"
+    version = "1.0.0-omega.0"
 }
 
 subprojects {
@@ -28,11 +28,6 @@ subprojects {
                     username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                     password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
                 }
-            }
-        }
-        publications {
-            register<MavenPublication>("gpr") {
-                from(components["kotlin"])
             }
         }
     }
