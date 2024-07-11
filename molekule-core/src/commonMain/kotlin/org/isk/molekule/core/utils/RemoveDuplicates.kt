@@ -1,12 +1,14 @@
 package org.isk.molekule.core.utils
 
 import org.isk.molekule.core.geomertry.point.Point
+import kotlin.math.roundToLong
 
 fun Sequence<Point>.removeDuplicates(distanceThreshold: Double = 10e-2): Sequence<Point> =
     this.distinctBy {
-        Triple(
-            (it.x / distanceThreshold).toLong(),
-            (it.y/distanceThreshold).toLong(),
-            (it.z/distanceThreshold).toLong()
+        val r = Triple(
+            (it.x / distanceThreshold).roundToLong(),
+            (it.y / distanceThreshold).roundToLong(),
+            (it.z / distanceThreshold).roundToLong()
         )
+        r
     }
