@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
+
 plugins {
     kotlin("multiplatform") version "2.0.0"
+    id("com.github.node-gradle.node") version "7.0.2"
     id("maven-publish")
 }
 
@@ -17,6 +20,7 @@ subprojects {
     apply {
         plugin("org.jetbrains.kotlin.multiplatform")
         plugin("maven-publish")
+        plugin("com.github.node-gradle.node")
     }
 
     publishing {
