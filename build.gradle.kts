@@ -48,6 +48,6 @@ kotlin {
 
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
     val node = rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>()
-    node.version = "14.0.0"
+    node.version = "14.9.0"
     node.download = true
 }
