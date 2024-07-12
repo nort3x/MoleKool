@@ -8,7 +8,7 @@ allprojects {
         mavenCentral()
     }
 
-    group = "org.isk"
+    group = "com.iskportal"
     version = "1.0.0-omega.0"
 }
 

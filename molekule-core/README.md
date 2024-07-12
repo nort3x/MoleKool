@@ -36,11 +36,13 @@ to include latest version use `-SNAPSHOT`
 ### Here is a glimpse 
 
 ```kotlin
-package org.isk.molekule.core
+package my.awesome.md
 
-import org.isk.molekule.core.atom.*
-import org.isk.molekule.core.geomertry.Point
-import org.isk.molekule.core.utils.toRad
+import com.iskportal.molekule.core.AtomicMass
+import com.iskportal.molekule.core.Environment
+import com.iskportal.molekule.core.atom.*
+import com.iskportal.molekule.core.geomertry.point.Point
+import com.iskportal.molekule.core.utils.toRad
 
 
 // represent your configuration using classes as base schema
@@ -89,8 +91,20 @@ fun main() {
             for (k in (0..<10))
                 env.add(WaterMolecule(Point(i, j, k)))
 
+
+    // using other modules (molekule-bind)
     // dump everything to an input file
     // atom full style is for electric charge consideration
     env.toLammpsInputFile("cube-water.data", AtomStyle.FULL)
+
+    // or visualize (molekule-visual)
+    KoolVisualizer()
+        .withDefaultConfig()
+        .addPlugin(SimulationBoxPlugin())
+        .addPlugin(BoxViewerPlugin(gasChamber, Color.RED))
+        .addPlugin(AxisPlugin())
+        .init()
+        .addEnvironment(env)
+        .runAndWaitUntilExit()
 }
 ```

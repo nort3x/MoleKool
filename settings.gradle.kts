@@ -13,7 +13,6 @@ rootProject.name = "molekule"
 
 include(
     "molekule-core",
-    "molekule-dynamic",
     "molekule-bind",
     "molekule-visual"
 )

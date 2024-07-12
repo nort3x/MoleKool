@@ -2,3 +2,5 @@
 /.gradle/
 /**/build/
 .kotlin
+dist
+/kotlin-js-store/
