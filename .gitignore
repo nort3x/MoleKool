@@ -4,3 +4,4 @@
 .kotlin
 dist
 /kotlin-js-store/
+local.properties

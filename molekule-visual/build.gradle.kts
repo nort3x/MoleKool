@@ -6,15 +6,15 @@ val physxJniVersion = "2.3.1"
 val targetPlatforms = listOf("natives-windows", "natives-linux", "natives-macos")
 
 kotlin {
-    js(IR) {
-        binaries.executable()
-        browser {
-            @OptIn(ExperimentalDistributionDsl::class)
-            distribution {
-                outputDirectory.set(File("${rootDir}/dist/js"))
-            }
-        }
-    }
+//    js(IR) {
+//        binaries.executable()
+//        browser {
+//            @OptIn(ExperimentalDistributionDsl::class)
+//            distribution {
+//                outputDirectory.set(File("${rootDir}/dist/js"))
+//            }
+//        }
+//    }
 
     sourceSets {
         commonMain.dependencies {
