@@ -14,5 +14,6 @@ rootProject.name = "molekule"
 include(
     "molekule-core",
     "molekule-bind",
-    "molekule-visual"
+    "molekule-visual",
+    "examples"
 )

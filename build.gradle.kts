@@ -36,6 +36,32 @@ subprojects {
     }
 
 
+    kotlin {
+        withSourcesJar(true)
+        jvmToolchain(21)
+        jvm()
+        js {
+            browser()
+        }
+        sourceSets {
+            commonTest.dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-test")
+            }
+        }
+        targets.all {
+            compilations.all {
+                compileTaskProvider {
+                    compilerOptions {
+                        freeCompilerArgs.add("-Xexpect-actual-classes")
+                    }
+                }
+            }
+        }
+    }
+
+    if (project.name == "examples")
+        return@subprojects
+
     // docs
 
     val dokkaOutputDir = layout.buildDirectory.dir("dokka")
@@ -110,28 +136,6 @@ subprojects {
         }
     }
 
-    kotlin {
-        withSourcesJar(true)
-        jvmToolchain(21)
-        jvm()
-        js {
-            browser()
-        }
-        sourceSets {
-            commonTest.dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test")
-            }
-        }
-        targets.all {
-            compilations.all {
-                compileTaskProvider {
-                    compilerOptions {
-                        freeCompilerArgs.add("-Xexpect-actual-classes")
-                    }
-                }
-            }
-        }
-    }
 }
 
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
