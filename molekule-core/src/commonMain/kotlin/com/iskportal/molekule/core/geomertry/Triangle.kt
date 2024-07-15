@@ -2,6 +2,7 @@ package com.iskportal.molekule.core.geomertry
 
 import com.iskportal.molekule.core.geomertry.point.Point
 import com.iskportal.molekule.core.utils.print
+import kotlin.math.PI
 import kotlin.math.absoluteValue
 import kotlin.math.atan
 import kotlin.math.sqrt
@@ -59,10 +60,15 @@ data class Triangle(
                         (b0 dot c0) * aNorm
                 )
 
-        val angle = atan(tanHalfAngle) * 2
+        var angle = atan(tanHalfAngle) * 2
+        angle = if(angle < 0.0) angle + PI else angle
 
         // normal face sign condition (parallel and anti-parallel)
         return if ((m0 dot normal) < 0) -angle
         else angle
     }
+
+    operator fun times(n: Number) = Triangle(a*n, b*n, c*n)
 }
+
+operator fun Number.times(t: Triangle) = Triangle(t.a*this, t.b*this, t.c*this)

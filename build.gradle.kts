@@ -114,12 +114,21 @@ subprojects {
         withSourcesJar(true)
         jvmToolchain(21)
         jvm()
-//        js {
-//            browser()
-//        }
+        js {
+            browser()
+        }
         sourceSets {
             commonTest.dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
+            }
+        }
+        targets.all {
+            compilations.all {
+                compileTaskProvider {
+                    compilerOptions {
+                        freeCompilerArgs.add("-Xexpect-actual-classes")
+                    }
+                }
             }
         }
     }
