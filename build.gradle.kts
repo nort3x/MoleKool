@@ -18,6 +18,7 @@ allprojects {
 }
 
 val localProperties = Properties().apply {
+    if(File(rootProject.rootDir, "local.properties").exists())
     load(FileInputStream(File(rootProject.rootDir, "local.properties")))
 }
 
