@@ -9,11 +9,11 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
 
-rootProject.name = "molekule"
+rootProject.name = "molekool"
 
 include(
-    "molekule-core",
-    "molekule-bind",
-    "molekule-visual",
+    "molekool-core",
+    "molekool-bind",
+    "molekool-visual",
     "examples"
 )

@@ -2,17 +2,14 @@
 showing how to parse STL file and traverse triangles
 */
 
-import com.iskportal.molekule.core.AtomicMass
-import com.iskportal.molekule.core.Environment
-import com.iskportal.molekule.core.compounds.atomOf
-import com.iskportal.molekule.core.format.STL
-import com.iskportal.molekule.core.geomertry.isInside
-import com.iskportal.molekule.core.geomertry.point.Point
-import com.iskportal.molekule.core.lattice.Grid3D
-import com.iskportal.molekule.core.lattice.spanInAllDirections
-import com.iskportal.molekule.visual.KoolVisualizer
-import com.iskportal.molekule.visual.plugins.AxisPlugin
-import com.iskportal.molekule.visual.plugins.BoxViewerPlugin
+import io.github.nort3x.molekool.core.AtomicMass
+import io.github.nort3x.molekool.core.Environment
+import io.github.nort3x.molekool.core.compounds.atomOf
+import io.github.nort3x.molekool.core.format.STL
+import io.github.nort3x.molekool.core.geomertry.point.Point
+import io.github.nort3x.molekool.visual.KoolVisualizer
+import io.github.nort3x.molekool.visual.plugins.AxisPlugin
+import io.github.nort3x.molekool.visual.plugins.BoxViewerPlugin
 
 fun main() {
 

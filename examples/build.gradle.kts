@@ -1,8 +1,8 @@
 kotlin{
     sourceSets.jvmMain{
         dependencies {
-            implementation(project(":molekule-core"))
-            implementation(project(":molekule-visual"))
+            implementation(project(":molekool-core"))
+            implementation(project(":molekool-visual"))
         }
     }
 }
