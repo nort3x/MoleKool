@@ -16,7 +16,7 @@ fun main() {
     val data = STL::class.java.classLoader.getResource("monkey.stl")!!.readBytes()
 
     // parse to triangles
-    val triangles = with(STL()) { parseSTLData(data) }
+    val triangles = STL(data).triangles
 
     val env = Environment()
 

@@ -20,7 +20,7 @@ fun main() {
     val data = STL::class.java.classLoader.getResource("monkey.stl")!!.readBytes()
 
     // parse to triangles
-    val triangles = with(STL()) { parseSTLData(data) }
+    val triangles = STL(data).triangles
 
     // closed surface from mesh-triangles
     val shape = TriangleMeshClosedSurface(triangles)
