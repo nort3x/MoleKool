@@ -1,10 +1,10 @@
 package io.github.nort3x.molekool.bind.lammps
 
+import io.github.nort3x.molekool.core.Environment
 import org.apache.velocity.Template
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.runtime.RuntimeSingleton
-import io.github.nort3x.molekool.core.Environment
 import org.slf4j.LoggerFactory
 import java.io.StringReader
 import java.io.StringWriter
@@ -16,7 +16,7 @@ import kotlin.io.path.pathString
 import kotlin.streams.asSequence
 
 class LAMMPS(
-    private val baseDirectory: Path = Paths.get("output")
+    private val baseDirectory: Path = Paths.get("output"),
 ) {
 
     private var runtimeDirectory: Path? = null
@@ -27,7 +27,7 @@ class LAMMPS(
     fun addScriptFile(path: Path): LAMMPS = addCommand(Files.readString(path))
     fun addScriptFile(path: String): LAMMPS = addScriptFile(Path.of(path))
     fun addCommand(cmd: String): LAMMPS {
-        script += "\n${cmd}"
+        script += "\n$cmd"
         return this
     }
 
@@ -80,15 +80,15 @@ class LAMMPS(
     }
 
     fun includeEnvironment(
-		environment: Environment,
-		name: String = "data.in",
-		atomStyle: AtomStyle = AtomStyle.FULL,
-		enclosingBoxOffset: Double = 0.0
+        environment: Environment,
+        name: String = "data.in",
+        atomStyle: AtomStyle = AtomStyle.FULL,
+        enclosingBoxOffset: Double = 0.0,
     ): LAMMPS {
         environment.toLammpsInputFile(
             createRuntimeDir().resolve(name).absolutePathString(),
             atomStyle,
-            enclosingBoxOffset
+            enclosingBoxOffset,
         )
         return this
     }
@@ -107,7 +107,6 @@ class LAMMPS(
             .inheritIO()
             .start()
             .waitFor()
-
     }
 
     fun runMPI(np: Int = 4): Int {
@@ -118,9 +117,7 @@ class LAMMPS(
             .inheritIO()
             .start()
             .waitFor()
-
     }
-
 }
 
 @Suppress("EXTENSION_SHADOWED_BY_MEMBER")

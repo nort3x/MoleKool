@@ -10,10 +10,9 @@ object Famous {
             override fun generate(basePoint: Point): List<Point> {
                 return listOf(
                     basePoint,
-                    basePoint + cell.direct(Point(0.25, 0.25, 0.25))
+                    basePoint + cell.direct(Point(0.25, 0.25, 0.25)),
                 )
             }
-
         }
     }
 }

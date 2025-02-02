@@ -11,7 +11,6 @@ open class Dihedral(vararg atoms: Atom, override val type: Int) : MultiAtomEntit
         return true
     }
 
-
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + type

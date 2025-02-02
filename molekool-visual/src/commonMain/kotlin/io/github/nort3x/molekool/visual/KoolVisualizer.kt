@@ -24,7 +24,6 @@ class KoolVisualizer(cfg: KoolConfig = defaultKoolConfig()) {
     }
     val plugins = mutableListOf<KoolVizualizerPlugin>()
 
-
     fun withDefaultConfig(): KoolVisualizer {
         plugins.add(EnvironmentMainPlugin())
         return this
@@ -49,6 +48,4 @@ class KoolVisualizer(cfg: KoolConfig = defaultKoolConfig()) {
         plugins.add(plugin)
         return this
     }
-
-
 }

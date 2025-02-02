@@ -12,7 +12,6 @@ import io.github.nort3x.molekool.visual.plugins.AxisPlugin
 import io.github.nort3x.molekool.visual.plugins.BoxViewerPlugin
 
 fun main() {
-
     // a basket for your atoms
     val env = Environment()
 
@@ -26,11 +25,9 @@ fun main() {
         .map { it * 1.5 } // scale
 //        .map { it.rotateZ(45.toRad()) } // rotate
         .map { it + (Point.xHat * 12) } // translate
-        .filter { it isInside sphereShape  } // filter
-        .map { atomOf(AtomicMass.C, it,1) } // generate
+        .filter { it isInside sphereShape } // filter
+        .map { atomOf(AtomicMass.C, it, 1) } // generate
         .forEach { env.add(it) } // add
-
-
 
     // visualize a bit, it helps
     KoolVisualizer()
@@ -40,11 +37,9 @@ fun main() {
         .init()
         .addEnvironment(env)
         .runAndWaitUntilExit()
-
 }
 
-val sphereShape = Sphere(Point(22,12,12), 10)
-
+val sphereShape = Sphere(Point(22, 12, 12), 10)
 
 class H2(origin: Point) : Molecule(type = 3) {
     init {

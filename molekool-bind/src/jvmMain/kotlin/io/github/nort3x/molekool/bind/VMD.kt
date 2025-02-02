@@ -1,11 +1,10 @@
 package io.github.nort3x.molekool.bind
 
-import org.apache.commons.lang3.SystemUtils
 import io.github.nort3x.molekool.bind.lammps.toLammpsDumpFile
 import io.github.nort3x.molekool.core.Environment
+import org.apache.commons.lang3.SystemUtils
 import java.io.File
 import java.io.FileOutputStream
-
 
 class VMD {
     init {
@@ -21,8 +20,9 @@ class VMD {
             System.err.println("can't determine if VMD exist in your system")
             true
         }
-        if (!res)
+        if (!res) {
             throw IllegalStateException("VMD is not in your path")
+        }
     }
 
     private var command = ""
@@ -34,7 +34,6 @@ class VMD {
     private var instance: Process? = null
     private var vmdFile: File? = null
     fun run(): VMD {
-
         vmdFile = File.createTempFile("molkul-", ".vmd-script")
         FileOutputStream(vmdFile!!).use {
             it.write(command.encodeToByteArray())
@@ -46,8 +45,8 @@ class VMD {
                     "vmd",
                     preCommand,
                     "-e",
-                    vmdFile!!.path
-                ).filter { it.isNotEmpty() }
+                    vmdFile!!.path,
+                ).filter { it.isNotEmpty() },
             )
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .start()
@@ -58,7 +57,6 @@ class VMD {
     fun setPreCommand(preCommand: String): VMD {
         this.preCommand = preCommand
         return this
-
     }
 
     fun vdm(size: Double = 1.0): VMD {

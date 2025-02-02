@@ -1,16 +1,17 @@
 package io.github.nort3x.molekool.core.atom
 
 open class Molecule(
-	val atoms: MutableList<Atom> = mutableListOf(),
-	val bonds: MutableList<Bond> = mutableListOf(),
-	val angles: MutableList<Angle> = mutableListOf(),
-	val dihedral: MutableList<Dihedral> = mutableListOf(),
-	override val type: Int
+    val atoms: MutableList<Atom> = mutableListOf(),
+    val bonds: MutableList<Bond> = mutableListOf(),
+    val angles: MutableList<Angle> = mutableListOf(),
+    val dihedral: MutableList<Dihedral> = mutableListOf(),
+    override val type: Int,
 ) : MultiAtomEntity(
     * (bonds + angles + dihedral)
         .flatMap { it.subAtoms.asSequence() }
-        .plus(atoms).toTypedArray()
-), EntityGenerator {
+        .plus(atoms).toTypedArray(),
+),
+    EntityGenerator {
     override fun generate(): Array<Trackable> =
         (atoms + bonds + angles + dihedral)
             .flatMap { it.generate().asSequence() }
@@ -40,6 +41,4 @@ open class Molecule(
         result = 31 * result + type
         return result
     }
-
-
 }

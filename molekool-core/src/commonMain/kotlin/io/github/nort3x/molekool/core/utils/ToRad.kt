@@ -2,6 +2,6 @@ package io.github.nort3x.molekool.core.utils
 
 import kotlin.math.PI
 
-private const val radConverter = PI / 180.0
+private const val RAD_CONVERTER = PI / 180.0
 fun Number.toRad(): Double =
-    this.toDouble() * radConverter
+    this.toDouble() * RAD_CONVERTER

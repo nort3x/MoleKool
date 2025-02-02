@@ -23,6 +23,4 @@ open class ChargedAtom(position: Point, mass: Double, val charge: Double, type: 
     override fun toString(): String {
         return "ChargedAtom(charge=$charge, atom=${super.toString()})"
     }
-
-
 }

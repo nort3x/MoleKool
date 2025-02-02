@@ -11,33 +11,32 @@ data class Box(
 ) : ClosedSurface {
 
     constructor(
-        xLow: Number, xHigh: Number,
-        yLow: Number, yHigh: Number,
-        zLow: Number, zHigh: Number,
+        xLow: Number,
+        xHigh: Number,
+        yLow: Number,
+        yHigh: Number,
+        zLow: Number,
+        zHigh: Number,
     ) : this(
         xLow to xHigh,
         yLow to yHigh,
-        zLow to zHigh
+        zLow to zHigh,
     )
-
 
     val xLow
         get() = xBoundary.first.toDouble()
     val xHigh
         get() = xBoundary.second.toDouble()
 
-
     val yLow
         get() = yBoundary.first.toDouble()
     val yHigh
         get() = yBoundary.second.toDouble()
 
-
     val zLow
         get() = zBoundary.first.toDouble()
     val zHigh
         get() = zBoundary.second.toDouble()
-
 
     /**
      * vector which represents lowest point of (left most inner bottom point) (xlow, ylow, zlow)
@@ -48,16 +47,18 @@ data class Box(
     val middle: Point
         get() = (edge + Point(xHigh, yHigh, zHigh)) * 0.5
 
-
     init {
-        if (xLow > xHigh)
+        if (xLow > xHigh) {
             throw IllegalArgumentException("x boundary is not valid: $xBoundary should from low to high and not equal")
+        }
 
-        if (yLow > yHigh)
+        if (yLow > yHigh) {
             throw IllegalArgumentException("y boundary is not valid: $yBoundary should from low to high and not equal")
+        }
 
-        if (zLow > zHigh)
+        if (zLow > zHigh) {
             throw IllegalArgumentException("z boundary is not valid: $zBoundary should from low to high and not equal")
+        }
     }
 
     override fun contains(point: Point): Boolean =

@@ -4,7 +4,7 @@ import io.github.nort3x.molekool.core.geomertry.point.Point
 
 data class Sphere(
     val middle: Point,
-    val radius: Number
+    val radius: Number,
 ) : ClosedSurface {
 
     override fun contains(point: Point): Boolean =
@@ -12,5 +12,4 @@ data class Sphere(
 
     override fun excludes(point: Point): Boolean =
         point.distance(middle) > radius.toDouble()
-
 }

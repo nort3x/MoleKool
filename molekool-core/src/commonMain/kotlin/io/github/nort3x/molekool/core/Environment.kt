@@ -9,7 +9,6 @@ import io.github.nort3x.molekool.core.geomertry.Box
 
 class Environment {
 
-
     val entities: MutableSet<Trackable> = mutableSetOf()
 
     val atoms: List<Atom>
@@ -30,7 +29,6 @@ class Environment {
     val coefficients: List<Coefficient>
         get() = entities.filterIsInstance<Coefficient>()
 
-
     val bondCoefficients: List<BondCoefficient>
         get() = entities.filterIsInstance<BondCoefficient>()
     val angleCoefficients: List<AngleCoefficient>
@@ -44,9 +42,9 @@ class Environment {
             return boundingBox ?: run {
 
                 val atoms = this.atoms
-                if (atoms.isEmpty())
+                if (atoms.isEmpty()) {
                     throw IllegalStateException("no atoms are inserted in the environment - can't enclose a box on an empty environment")
-
+                }
 
                 var xLow: Double = atoms.first().position.x
                 var xHigh: Double = xLow
@@ -59,20 +57,26 @@ class Environment {
 
                 atoms.forEach {
                     with(it.position) {
-                        if (x > xHigh)
+                        if (x > xHigh) {
                             xHigh = x
-                        if (x < xLow)
+                        }
+                        if (x < xLow) {
                             xLow = x
+                        }
 
-                        if (y > yHigh)
+                        if (y > yHigh) {
                             yHigh = y
-                        if (y < yLow)
+                        }
+                        if (y < yLow) {
                             yLow = y
+                        }
 
-                        if (z > zHigh)
+                        if (z > zHigh) {
                             zHigh = z
-                        if (z < zLow)
+                        }
+                        if (z < zLow) {
                             zLow = z
+                        }
                     }
                 }
 
@@ -84,16 +88,18 @@ class Environment {
         entities.addAll(entityGenerator.flatMap { it.generate().asSequence() })
     }
 
-    fun add( entityGenerator: List<EntityGenerator>) {
+    fun add(entityGenerator: List<EntityGenerator>) {
         entities.addAll(entityGenerator.flatMap { it.generate().asSequence() })
     }
 
     fun enclosingBox(offset: Double): Box = with(enclosingBox) {
         Box(
-            xLow - offset, xHigh + offset,
-            yLow - offset, yHigh + offset,
-            zLow - offset, zHigh + offset
+            xLow - offset,
+            xHigh + offset,
+            yLow - offset,
+            yHigh + offset,
+            zLow - offset,
+            zHigh + offset,
         )
     }
-
 }

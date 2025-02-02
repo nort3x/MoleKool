@@ -8,7 +8,7 @@ import kotlin.math.atan
 data class Triangle(
     val a: Point,
     val b: Point,
-    val c: Point
+    val c: Point,
 ) {
 
     val middle: Point = (a + b + c) / 3.0
@@ -35,7 +35,6 @@ data class Triangle(
 
     val plane: Plane = Plane.from(normal, a)
 
-
     /**
      * returns solid angle of this triangle seen from [point] as it's origin - sign indicates you are looking parallel (positive) or anti-parallel (negative)
      * see [Tetrahedron SolidAngle Formula](https://en.wikipedia.org/wiki/Solid_angle#Tetrahedron)
@@ -52,21 +51,24 @@ data class Triangle(
 
         // see Eriksson, Folke (1990). "On the measure of solid angles". Math. Mag. 63 (3): 184–187. doi:10.2307/2691141. JSTOR 2691141
         val tanHalfAngle = a0.dot(b0 cross c0).absoluteValue / (
-                aNorm * bNorm * cNorm +
-                        (a0 dot b0) * cNorm +
-                        (a0 dot c0) * bNorm +
-                        (b0 dot c0) * aNorm
-                )
+            aNorm * bNorm * cNorm +
+                (a0 dot b0) * cNorm +
+                (a0 dot c0) * bNorm +
+                (b0 dot c0) * aNorm
+            )
 
         var angle = atan(tanHalfAngle) * 2
-        angle = if(angle < 0.0) angle + PI else angle
+        angle = if (angle < 0.0) angle + PI else angle
 
         // normal face sign condition (parallel and anti-parallel)
-        return if ((m0 dot normal) < 0) -angle
-        else angle
+        return if ((m0 dot normal) < 0) {
+            -angle
+        } else {
+            angle
+        }
     }
 
-    operator fun times(n: Number) = Triangle(a*n, b*n, c*n)
+    operator fun times(n: Number) = Triangle(a * n, b * n, c * n)
 }
 
-operator fun Number.times(t: Triangle) = Triangle(t.a*this, t.b*this, t.c*this)
+operator fun Number.times(t: Triangle) = Triangle(t.a * this, t.b * this, t.c * this)

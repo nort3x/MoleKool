@@ -8,22 +8,23 @@ data class Plane(
     val a: Double,
     val b: Double,
     val c: Double,
-    val d: Double
+    val d: Double,
 ) {
 
     val normalVector = Point(a, b, c).normalize()
 
     class HessianNormalForm(
         val p: Double,
-        val n: Point
+        val n: Point,
     )
 
     fun reflect(point: Point): Point {
         val distanceToTranslate = 2 * distanceFrom(point)
-        return if (point dot normalVector >= 0)
+        return if (point dot normalVector >= 0) {
             point + (distanceToTranslate * normalVector)
-        else
+        } else {
             point - (distanceToTranslate * normalVector)
+        }
     }
 
     fun distanceFrom(point: Point): Double = with(hessianNormalForm) {

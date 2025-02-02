@@ -9,16 +9,15 @@ import java.io.FileOutputStream
 enum class AtomStyle {
     ATOMIC,
     MOLECULE,
-    FULL
+    FULL,
 }
 
 fun Environment.toLammpsInputFile(
-	filePath: String,
-	atomStyle: AtomStyle = AtomStyle.ATOMIC,
-	enclosingBoxOffset: Double = 0.0,
-	rescale: Double = 1.0
+    filePath: String,
+    atomStyle: AtomStyle = AtomStyle.ATOMIC,
+    enclosingBoxOffset: Double = 0.0,
+    rescale: Double = 1.0,
 ) {
-
     val labeledAtoms = this.atoms.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
     val labeledBonds = this.bond.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
     val labeledAngles = this.angles.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
@@ -79,7 +78,6 @@ fun Environment.toLammpsInputFile(
                 }
         }
 
-
         if (this.dihedralCoefficients.isNotEmpty()) {
             oups + ""
             oups + "Dihedral Coeffs"
@@ -90,7 +88,6 @@ fun Environment.toLammpsInputFile(
                     oups + "${it.type} ${it.coefficients.joinToString("\t")}"
                 }
         }
-
 
         oups + ""
         oups + "Atoms"
@@ -151,7 +148,6 @@ fun Environment.toLammpsInputFile(
             labeledAngles.entries.sortedBy { it.value }.forEach { (angle, index) ->
                 oups + "$index ${angle.type} ${labeledAtoms[angle.first]!!} ${labeledAtoms[angle.second]!!} ${labeledAtoms[angle.third]!!}"
             }
-
         }
 
         if (labeledDihedral.isNotEmpty()) {
@@ -162,17 +158,15 @@ fun Environment.toLammpsInputFile(
                 oups + "$index ${dihedral.type} ${dihedral.subAtoms.map { labeledAtoms[it]!! }.joinToString(" ")}"
             }
         }
-
     }
 }
-
 
 fun Environment.toLammpsDumpFile(
     filePath: String,
     timeStamps: Long = 0,
     bounds: String = "pp pp pp",
     enclosingBoxOffset: Double = 0.0,
-    rescale: Double = 1.0
+    rescale: Double = 1.0,
 ) {
     val labeledAtoms = this.atoms.mapIndexed { index, atom -> atom to index + 1 }.toMap()
     val box = enclosingBox(enclosingBoxOffset)
@@ -187,7 +181,8 @@ fun Environment.toLammpsDumpFile(
         ${box.xLow * rescale} ${box.xHigh * rescale}
         ${box.yLow * rescale} ${box.yHigh * rescale}
         ${box.zLow * rescale} ${box.zHigh * rescale}
-        ITEM: ATOMS id type xs ys zs""".trimIndent()
+        ITEM: ATOMS id type xs ys zs
+        """.trimIndent()
         labeledAtoms.forEach { (atom, index) ->
             oups + "$index ${atom.type} ${atom.position.x * rescale} ${atom.position.y * rescale} ${atom.position.z * rescale}"
         }

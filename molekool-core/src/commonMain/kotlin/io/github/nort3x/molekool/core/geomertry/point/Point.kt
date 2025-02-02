@@ -1,18 +1,25 @@
 package io.github.nort3x.molekool.core.geomertry.point
 
 import io.github.nort3x.molekool.core.geomertry.Distanceable
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 data class Point(
-    var x: Double, var y: Double, var z: Double
+    var x: Double,
+    var y: Double,
+    var z: Double,
 ) : Distanceable {
 
     constructor(x: Number, y: Number, z: Number) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
     override fun distance(point: Point): Double {
         return sqrt(
-            (x - point.x).pow(2) + (y - point.y).pow(2) + (z - point.z).pow(2)
+            (x - point.x).pow(2) + (y - point.y).pow(2) + (z - point.z).pow(2),
         )
     }
 
@@ -26,8 +33,8 @@ data class Point(
     infix fun cross(other: Point): Point =
         Point(
             y * other.z - z * other.y,
-             z * other.x - x * other.z ,
-            x * other.y - y * other.x
+            z * other.x - x * other.z,
+            x * other.y - y * other.x,
         )
 
     /**
@@ -40,37 +47,39 @@ data class Point(
     val norm
         get() = sqrt(norm2)
 
-
     fun rotateZ(rad: Double): Point {
         val sinRad = sin(rad)
         val cosRad = cos(rad)
         return Point(
-            x * cosRad - y * sinRad, x * sinRad + y * cosRad, z
+            x * cosRad - y * sinRad,
+            x * sinRad + y * cosRad,
+            z,
         )
     }
-
 
     fun rotateY(rad: Double): Point {
         val sinRad = sin(rad)
         val cosRad = cos(rad)
         return Point(
-            x * cosRad + z * sinRad, y, -x * sinRad + z * cosRad
+            x * cosRad + z * sinRad,
+            y,
+            -x * sinRad + z * cosRad,
         )
     }
-
 
     fun rotateX(rad: Double): Point {
         val sinRad = sin(rad)
         val cosRad = cos(rad)
         return Point(
-            x, y * cosRad + z * sinRad, y * sinRad + z * cosRad
+            x,
+            y * cosRad + z * sinRad,
+            y * sinRad + z * cosRad,
         )
     }
 
     fun normalize() = this / norm
 
     operator fun unaryMinus(): Point = Point(-x, -y, -z)
-
 
     companion object {
         val origin: Point = Point(0, 0, 0)

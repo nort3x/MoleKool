@@ -1,7 +1,7 @@
 package io.github.nort3x.molekool.core.atom
 
 abstract class MultiAtomEntity(
-    vararg val subAtoms: Atom
+    vararg val subAtoms: Atom,
 ) : Trackable, EntityGenerator {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -20,5 +20,4 @@ abstract class MultiAtomEntity(
     override fun toString(): String {
         return "MultiAtomEntity(subAtoms=${subAtoms.contentToString()})"
     }
-
 }

@@ -1,9 +1,9 @@
 package io.github.nort3x.molekool.core.atom
 
 open class Bond(
-	val first: Atom,
-	val second: Atom,
-	override val type: Int
+    val first: Atom,
+    val second: Atom,
+    override val type: Int,
 ) : MultiAtomEntity(first, second) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

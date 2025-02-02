@@ -16,7 +16,6 @@ import io.github.nort3x.molekool.visual.plugins.AxisPlugin
 import io.github.nort3x.molekool.visual.plugins.BoxViewerPlugin
 
 fun main() {
-
     // reading bytes in a painful way - go ahead provide byte array however you can
     val data = STL::class.java.classLoader.getResource("monkey.stl")!!.readBytes()
 
@@ -44,4 +43,3 @@ fun main() {
         .addEnvironment(env)
         .runAndWaitUntilExit()
 }
-

@@ -8,7 +8,6 @@ interface ClosedSurface {
     fun touches(point: Point): Boolean =
         !contains(point) && !excludes(point)
 
-
     infix operator fun plus(other: ClosedSurface) =
         object : ClosedSurface {
             override fun contains(point: Point): Boolean =
@@ -34,9 +33,7 @@ interface ClosedSurface {
 
             override fun excludes(point: Point): Boolean =
                 this@ClosedSurface.excludes(point) || other.excludes(point)
-
         }
-
 
     companion object {
         val EMPTY = object : ClosedSurface {
@@ -45,7 +42,6 @@ interface ClosedSurface {
             override fun excludes(point: Point): Boolean = true
         }
     }
-
 }
 
 infix fun Point.isInside(c: ClosedSurface): Boolean = c.contains(this)

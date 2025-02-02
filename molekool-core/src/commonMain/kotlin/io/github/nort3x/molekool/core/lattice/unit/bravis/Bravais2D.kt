@@ -10,7 +10,6 @@ import kotlin.math.sin
 
 object Bravais2D {
 
-
     /**
      * theta in rads
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/2d_mp.svg/90px-2d_mp.svg.png"/>
@@ -39,13 +38,11 @@ object Bravais2D {
             Point(0, 0, 0),
         )
 
-
     /**
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/2d_tp.svg/90px-2d_tp.svg.png"/>
      */
     fun tetragonal(a: Double): UnitCell =
         orthorhombic(a, a)
-
 
     /**
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/2d_hp.svg/100px-2d_hp.svg.png"/>

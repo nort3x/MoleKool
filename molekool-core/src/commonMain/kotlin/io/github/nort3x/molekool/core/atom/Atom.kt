@@ -24,5 +24,4 @@ open class Atom(val position: Point, val mass: Double, override val type: Int) :
     override fun toString(): String {
         return "Atom(position=$position, mass=$mass, type=$type)"
     }
-
 }

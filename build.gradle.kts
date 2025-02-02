@@ -1,11 +1,15 @@
+import com.vanniktech.maven.publish.SonatypeHost
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.dokka)
-    `maven-publish`
-    `signing`
+    alias(libs.plugins.publish)
+    alias(libs.plugins.ktlint)
+    signing
 }
 
 allprojects {
+
     repositories {
         mavenCentral()
     }
@@ -14,26 +18,32 @@ allprojects {
     version = "1.0.0.alpha-1"
 }
 
-val notJsSafe = listOf("molekool-bind")
-
 subprojects {
 
     apply {
         plugin("org.jetbrains.kotlin.multiplatform")
-        plugin("maven-publish")
-        plugin("org.jetbrains.dokka")
+        plugin("org.jlleitschuh.gradle.ktlint")
+        plugin("com.vanniktech.maven.publish")
         plugin("signing")
     }
 
+    ktlint {
+        ignoreFailures = false
+        verbose = true
+        outputToConsole = true
+        reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.CHECKSTYLE)
+        }
+        filter {
+            exclude("**/generated/**")
+        }
+    }
 
     kotlin {
         withSourcesJar(true)
         jvmToolchain(21)
         jvm()
-        if (project.name !in notJsSafe)
-            js {
-                browser()
-            }
         sourceSets {
             commonTest.dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
@@ -50,50 +60,40 @@ subprojects {
         }
     }
 
+    mavenPublishing {
+        coordinates(group.toString(), project.name, version.toString())
+        pom {
+            name.set("moleKool")
+            description.set("various solutions for molecular dynamics")
+            url.set("https://github.com/nort3x/moleKool")
 
-    val dokkaOutputDir = layout.buildDirectory.dir("dokka")
-    tasks.dokkaHtml { outputDirectory.set(file(dokkaOutputDir)) }
-    val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") { delete(dokkaOutputDir) }
-    val javadocJar = tasks.create<Jar>("javadocJar") {
-        archiveClassifier.set("javadoc")
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-        from(dokkaOutputDir)
-    }
-
-    publishing {
-
-        publications {
-            publications.withType<MavenPublication> {
-                artifact(javadocJar)
-
-                pom {
-                    name.set("moleKool")
-                    description.set("various solutions for molecular dynamics")
-                    url.set("https://github.com/nort3x/moleKool")
-
-                    licenses {
-                        license {
-                            name.set("GNU General Public License v3.0")
-                            url.set("https://www.gnu.org/licenses/gpl-3.0.en.html")
-                        }
-                    }
-
-                    issueManagement {
-                        system.set("GitHub Issues")
-                        url.set("https://github.com/nort3x/moleKool/issues")
-                    }
-
-                    developers {
-                        developer {
-                            id.set("nort3x")
-                            name.set("Human Ardaki")
-                            email.set("humanardaki@gmail.com")
-                        }
-                    }
+            licenses {
+                license {
+                    name.set("GNU General Public License v3.0")
+                    url.set("https://www.gnu.org/licenses/gpl-3.0.en.html")
                 }
             }
+
+            issueManagement {
+                system.set("GitHub Issues")
+                url.set("https://github.com/nort3x/moleKool/issues")
+            }
+
+            developers {
+                developer {
+                    id.set("nort3x")
+                    name.set("Human Ardaki")
+                    email.set("humanardaki@gmail.com")
+                }
+            }
+
+            scm {
+                url.set("https://github.com/nort3x/moleKool")
+            }
         }
+
+        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+        signAllPublications()
     }
 }
 

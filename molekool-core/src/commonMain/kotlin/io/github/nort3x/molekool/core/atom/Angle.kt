@@ -1,10 +1,10 @@
 package io.github.nort3x.molekool.core.atom
 
 open class Angle(
-	val first: Atom,
-	val second: Atom,
-	val third: Atom,
-	override val type: Int
+    val first: Atom,
+    val second: Atom,
+    val third: Atom,
+    override val type: Int,
 ) : MultiAtomEntity(first, second, third) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -19,6 +19,4 @@ open class Angle(
         result = 31 * result + type
         return result
     }
-
-
 }

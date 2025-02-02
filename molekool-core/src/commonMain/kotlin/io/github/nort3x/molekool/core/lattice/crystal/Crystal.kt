@@ -21,7 +21,6 @@ abstract class Crystal<T>(val unitCell: UnitCell) {
                 override fun generate(basePoint: Point): List<Point> = listOf(basePoint)
             }
 
-
         val graphene = Graphene
         val famous = Famous
     }

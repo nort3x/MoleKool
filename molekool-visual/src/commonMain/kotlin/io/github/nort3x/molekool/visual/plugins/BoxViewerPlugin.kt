@@ -8,7 +8,7 @@ import io.github.nort3x.molekool.visual.KoolVisualizer
 import io.github.nort3x.molekool.visual.utils.vec3
 
 class BoxViewerPlugin(val box: Box, val color: Color = Color.WHITE, showPlanes: Boolean = false) :
-	KoolVizualizerPlugin {
+    KoolVizualizerPlugin {
     override fun initialize(koolVisualizer: KoolVisualizer) {
         val points = with(box) {
             listOf(
@@ -26,7 +26,7 @@ class BoxViewerPlugin(val box: Box, val color: Color = Color.WHITE, showPlanes: 
 
                 Point(xHigh, yLow, zHigh) to Point(xLow, yLow, zHigh),
                 Point(xHigh, yLow, zHigh) to Point(xHigh, yLow, zLow),
-                Point(xHigh, yLow, zHigh) to Point(xHigh, yHigh, zHigh)
+                Point(xHigh, yLow, zHigh) to Point(xHigh, yHigh, zHigh),
             )
         }
 

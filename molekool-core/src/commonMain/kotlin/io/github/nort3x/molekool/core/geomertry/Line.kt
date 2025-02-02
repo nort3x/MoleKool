@@ -5,11 +5,11 @@ import io.github.nort3x.molekool.core.geomertry.point.times
 
 data class Line(
     val point: Point,
-    val vector: Point
+    val vector: Point,
 ) : Distanceable {
     constructor(points: Pair<Point, Point>) : this(
         points.first,
-        with(points) { Point(second.x - first.x, second.y - first.y, second.z - first.z) }
+        with(points) { Point(second.x - first.x, second.y - first.y, second.z - first.z) },
     )
 
     override fun distance(point: Point): Double {
@@ -25,7 +25,7 @@ data class Line(
         val v = vector
 
         val c = p - b
-        val tStar = - (v dot c) / v.norm2
+        val tStar = -(v dot c) / v.norm2
 
         val minVector = p + tStar * v - b
 

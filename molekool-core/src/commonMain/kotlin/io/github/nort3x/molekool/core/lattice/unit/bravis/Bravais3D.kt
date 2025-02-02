@@ -18,11 +18,10 @@ object Bravais3D {
         c: Double,
         alpha: Double,
         beta: Double,
-        gamma: Double
+        gamma: Double,
     ): UnitCell {
         val a1 = Point(a, 0, 0)
         val a2 = Point(b * cos(gamma), b * sin(gamma), 0)
-
 
         // equation taken from here
         // https://www.aflowlib.org/prototype-encyclopedia/triclinic_lattice.html
@@ -45,10 +44,12 @@ object Bravais3D {
         c: Double,
         beta: Double,
     ): UnitCell = triclinic(
-        a, b, c,
+        a,
+        b,
+        c,
         PI / 2.0,
         beta,
-        PI / 2.0
+        PI / 2.0,
     )
 
     /**
@@ -66,7 +67,6 @@ object Bravais3D {
             Point(a, -b, 0) * 0.5,
             Point(-c, 0, 0).rotateY(beta),
         )
-
 
     /**
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Orthorhombic.svg/80px-Orthorhombic.svg.png"/>
@@ -115,13 +115,12 @@ object Bravais3D {
             Point(a, b, 0) * 0.5,
         )
 
-
     /**
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Tetragonal.svg/80px-Tetragonal.svg.png"/>
      */
     fun tetragonal(
         a: Double,
-        c: Double
+        c: Double,
     ): UnitCell = orthorhombic(a, a, c)
 
     /**
@@ -129,7 +128,7 @@ object Bravais3D {
      */
     fun tetragonalBodyCentered(
         a: Double,
-        c: Double
+        c: Double,
     ): UnitCell = orthorhombicBodyCentered(a, a, c)
 
     /**
@@ -147,13 +146,11 @@ object Bravais3D {
      */
     fun cubicFaceCentered(a: Double) = orthorhombicFaceCentered(a, a, a)
 
-
     /**
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Hexagonal_latticeFRONT.svg/80px-Hexagonal_latticeFRONT.svg.png"/>
      */
     fun hexagonal(a: Double, c: Double) =
         triclinic(a, a, c, 120.toRad(), PI / 2, 120.toRad())
-
 
     /**
      * @see <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Rhombohedral.svg/80px-Rhombohedral.svg.png"/>

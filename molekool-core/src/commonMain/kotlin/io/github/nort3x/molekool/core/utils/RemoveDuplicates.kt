@@ -8,7 +8,7 @@ fun Sequence<Point>.removeDuplicates(distanceThreshold: Double = 10e-2): Sequenc
         val r = Triple(
             (it.x / distanceThreshold).roundToLong(),
             (it.y / distanceThreshold).roundToLong(),
-            (it.z / distanceThreshold).roundToLong()
+            (it.z / distanceThreshold).roundToLong(),
         )
         r
     }

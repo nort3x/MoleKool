@@ -6,12 +6,11 @@ import io.github.nort3x.molekool.core.geomertry.point.Point
 import io.github.nort3x.molekool.visual.KoolVisualizer
 import io.github.nort3x.molekool.visual.utils.vec3
 
-class SimulationBoxPlugin(private val color: Color = Color.CYAN): KoolVizualizerPlugin {
+class SimulationBoxPlugin(private val color: Color = Color.CYAN) : KoolVizualizerPlugin {
     override fun initialize(koolVisualizer: KoolVisualizer) {
     }
 
     override fun addEnvironment(koolVisualizer: KoolVisualizer, environment: io.github.nort3x.molekool.core.Environment) {
-
         val points = with(environment.enclosingBox) {
             listOf(
                 Point(xLow, yLow, zLow) to Point(xHigh, yLow, zLow),
@@ -28,7 +27,7 @@ class SimulationBoxPlugin(private val color: Color = Color.CYAN): KoolVizualizer
 
                 Point(xHigh, yLow, zHigh) to Point(xLow, yLow, zHigh),
                 Point(xHigh, yLow, zHigh) to Point(xHigh, yLow, zLow),
-                Point(xHigh, yLow, zHigh) to Point(xHigh, yHigh, zHigh)
+                Point(xHigh, yLow, zHigh) to Point(xHigh, yHigh, zHigh),
             )
         }
 
