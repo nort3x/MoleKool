@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalDistributionDsl
 
 @OptIn(ExperimentalWasmDsl::class)
 kotlin {
+    jvm()
     js(IR) {
         binaries.executable()
         browser {
