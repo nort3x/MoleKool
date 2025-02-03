@@ -84,11 +84,11 @@ To use this library in your Gradle project, add the following to your `build.gra
 ```gradle
 dependencies {
     // Various generators
-    implementation("com.github.nort3x:molekool-core:$molekoolVersion")
+    implementation("io.github.nort3x:molekool-core:$molekoolVersion")
     // Using Kool engine to visualize environments
-    implementation("com.github.nort3x:molekool-visual:$molekoolVersion")
+    implementation("io.github.nort3x:molekool-visual:$molekoolVersion")
     // Basic bindings to various MD third-party tools (experimental)
-    implementation("com.github.nort3x:molekool-bind:$molekoolVersion")
+    implementation("io.github.nort3x:molekool-bind:$molekoolVersion")
 }
 ```
 
@@ -103,19 +103,19 @@ To use this library in your Maven project, add the following to your `pom.xml` f
 <dependencies>
     <!-- Various generators -->
     <dependency>
-        <groupId>com.github.nort3x</groupId>
+        <groupId>io.github.nort3x</groupId>
         <artifactId>molekool-core</artifactId>
         <version>VERSION</version>
     </dependency>
     <!-- Using Kool engine to visualize environments -->
     <dependency>
-        <groupId>com.github.nort3x</groupId>
+        <groupId>io.github.nort3x</groupId>
         <artifactId>molekool-visual</artifactId>
         <version>VERSION</version>
     </dependency>
     <!-- Basic bindings to various MD third-party tools (experimental) -->
     <dependency>
-        <groupId>com.github.nort3x</groupId>
+        <groupId>io.github.nort3x</groupId>
         <artifactId>molekool-bind</artifactId>
         <version>VERSION</version>
     </dependency>
