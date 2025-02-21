@@ -14,6 +14,9 @@ open class ChargedAtom(position: Point, mass: Double, val charge: Double, type: 
         return true
     }
 
+    override fun copy(): ChargedAtom =
+        ChargedAtom(position.copy(), mass, charge, type)
+
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + charge.hashCode()

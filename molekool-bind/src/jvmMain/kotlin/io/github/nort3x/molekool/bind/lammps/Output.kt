@@ -18,16 +18,23 @@ fun Environment.toLammpsInputFile(
     enclosingBoxOffset: Double = 0.0,
     rescale: Double = 1.0,
 ) {
+    println("generating input file from ${this.entities.size} entities")
+
     val labeledAtoms = this.atoms.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
+    println("generated labeled atoms")
     val labeledBonds = this.bond.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
+    println("generated labeled bonds")
     val labeledAngles = this.angles.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
+    println("generated labeled angles")
     val labeledDihedral = this.dihedral.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
+    println("generated labeled dihedrals")
     val labeledMolecule = this.molecules.toList().mapIndexed { index, atom -> atom to index + 1 }.toMap()
-    val moleculeLessAtoms = labeledAtoms.filterNot { indexedAtom ->
-        labeledMolecule.keys.any { molecule ->
-            molecule.atoms.contains(indexedAtom.key)
-        }
-    }.toMap()
+    println("generated labeled molecules")
+
+    val moleculeAtomsSet = labeledMolecule.keys.flatMap { it.atoms }.toSet()
+    val moleculeLessAtoms = labeledAtoms.filterNot { (atom, _) -> moleculeAtomsSet.contains(atom) }
+    println("generated molecule-less Atoms")
+
 
     FileOutputStream(File(filePath)).use { oups ->
 
@@ -38,7 +45,8 @@ fun Environment.toLammpsInputFile(
         oups + "${this.angles.size}\tangles"
         oups + "${this.dihedral.size}\tdihedrals"
         oups + ""
-        oups + "${this.atoms.distinctBy { it.type }.size}\t\tatom types"
+//        oups + "${this.atoms.distinctBy { it.type }.size}\t\tatom types"
+        oups + "${this.atoms.maxOf { it.type }}\t\tatom types"
         oups + "${this.bond.distinctBy { it.type }.size}\t\tbond types"
         oups + "${this.angles.distinctBy { it.type }.size}\t\tangle types"
         oups + "${this.dihedral.distinctBy { it.type }.size}\t\tdihedral types"
@@ -51,7 +59,11 @@ fun Environment.toLammpsInputFile(
         oups + ""
         oups + "Masses"
         oups + ""
+        (1 until  this.atoms.minOf { it.type }).forEach{
+            oups + "$it 0.0"
+        }
         this.atoms.distinctBy { it.type }
+            .sortedBy { it.type }
             .forEach {
                 oups + "${it.type} ${it.mass}"
             }

@@ -11,12 +11,33 @@ open class Molecule(
         .flatMap { it.subAtoms.asSequence() }
         .plus(atoms).toTypedArray(),
 ),
-    EntityGenerator {
+    EntityGenerator, Cloneable<Molecule> {
     override fun generate(): Array<Trackable> =
         (atoms + bonds + angles + dihedral)
             .flatMap { it.generate().asSequence() }
             .plus(this)
             .toTypedArray()
+
+    override fun copy(): Molecule {
+        val atomCopies = atoms.map { it.copy() }.toMutableList()
+        fun findAtomFromCopy(atom: Atom): Atom = TODO()
+
+        return Molecule(
+            atomCopies,
+            bonds.map { Bond(findAtomFromCopy(it.first), findAtomFromCopy(it.second), it.type) }.toMutableList(),
+            angles.map {
+                Angle(
+                    findAtomFromCopy(it.first),
+                    findAtomFromCopy(it.second),
+                    findAtomFromCopy(it.third),
+                    it.type
+                )
+            }.toMutableList(),
+            dihedral.map { Dihedral(*it.subAtoms.map(::findAtomFromCopy).toTypedArray(), type = it.type) }
+                .toMutableList(),
+            type
+        )
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
