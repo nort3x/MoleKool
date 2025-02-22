@@ -57,7 +57,7 @@ fun Environment.toLammpsInputFile(
         oups + "${box.yLow} ${box.yHigh} ylo yhi"
         oups + "${box.zLow} ${box.zHigh} zlo zhi"
         oups + ""
-        oups + "Masses"
+        oups + InputFileTokens.MASSES.token
         oups + ""
         (1 until  this.atoms.minOf { it.type }).forEach{
             oups + "$it 0.0"
@@ -70,7 +70,7 @@ fun Environment.toLammpsInputFile(
 
         if (this.bondCoefficients.isNotEmpty()) {
             oups + ""
-            oups + "Bond Coeffs"
+            oups + InputFileTokens.BOND_COEFFS.token
             oups + ""
             this.bondCoefficients
                 .distinctBy { it.type }
@@ -81,7 +81,7 @@ fun Environment.toLammpsInputFile(
 
         if (this.angleCoefficients.isNotEmpty()) {
             oups + ""
-            oups + "Angle Coeffs"
+            oups + InputFileTokens.ANGLE_COEFFS.token
             oups + ""
             this.angleCoefficients
                 .distinctBy { it.type }
@@ -92,7 +92,7 @@ fun Environment.toLammpsInputFile(
 
         if (this.dihedralCoefficients.isNotEmpty()) {
             oups + ""
-            oups + "Dihedral Coeffs"
+            oups + InputFileTokens.DIHEDRAL_COEFFS.token
             oups + ""
             this.dihedralCoefficients
                 .distinctBy { it.type }
@@ -102,7 +102,7 @@ fun Environment.toLammpsInputFile(
         }
 
         oups + ""
-        oups + "Atoms"
+        oups + InputFileTokens.ATOMS.token
         oups + ""
 
         when (atomStyle) {
@@ -146,7 +146,7 @@ fun Environment.toLammpsInputFile(
 
         if (labeledBonds.isNotEmpty()) {
             oups + ""
-            oups + "Bonds"
+            oups + InputFileTokens.BONDS.token
             oups + ""
             labeledBonds.entries.sortedBy { it.value }.forEach { (bond, index) ->
                 oups + "$index ${bond.type} ${labeledAtoms[bond.first]!!} ${labeledAtoms[bond.second]!!}"
@@ -155,7 +155,7 @@ fun Environment.toLammpsInputFile(
 
         if (labeledAngles.isNotEmpty()) {
             oups + ""
-            oups + "Angles"
+            oups + InputFileTokens.ANGLES.token
             oups + ""
             labeledAngles.entries.sortedBy { it.value }.forEach { (angle, index) ->
                 oups + "$index ${angle.type} ${labeledAtoms[angle.first]!!} ${labeledAtoms[angle.second]!!} ${labeledAtoms[angle.third]!!}"
@@ -164,7 +164,7 @@ fun Environment.toLammpsInputFile(
 
         if (labeledDihedral.isNotEmpty()) {
             oups + ""
-            oups + "Dihedrals"
+            oups + InputFileTokens.DIHEDRALS.token
             oups + ""
             labeledDihedral.entries.sortedBy { it.value }.forEach { (dihedral, index) ->
                 oups + "$index ${dihedral.type} ${dihedral.subAtoms.map { labeledAtoms[it]!! }.joinToString(" ")}"

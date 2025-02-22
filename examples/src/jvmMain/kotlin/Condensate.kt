@@ -14,7 +14,8 @@ fun main() {
         val res = readResource("condensate.dat")!!
 
         val env = Environment()
-        readLampsFullFile(res.substring(0, res.indexOf("Velocities")))
+        readLampsFullFile(res)
+            .first
             .filterNot { it.atoms.any { it.type < 5 } }
             .forEachIndexed { i, it ->
                 env.add(it)
