@@ -15,15 +15,6 @@ open class Atom(override var position: Point, val mass: Double, override val typ
         Atom(position.copy(), mass, type)
 
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Atom) return false
-
-        if (position != other.position) return false
-        if (type != other.type) return false
-
-        return true
-    }
 
     override fun hashCode(): Int {
         var result = position.hashCode()

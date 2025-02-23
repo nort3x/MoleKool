@@ -2,6 +2,7 @@ package io.github.nort3x.molekool.bind.lammps
 
 import io.github.nort3x.molekool.core.Environment
 import io.github.nort3x.molekool.core.atom.Angle
+import io.github.nort3x.molekool.core.atom.Atom
 import io.github.nort3x.molekool.core.atom.Bond
 import io.github.nort3x.molekool.core.atom.ChargedAtom
 import io.github.nort3x.molekool.core.atom.Dihedral
@@ -27,21 +28,28 @@ fun readLampsSnapshotFile(content: String): Pair<Sequence<List<String>>, Sequenc
             .map { it }
 
 
+data class IndexedMolecule(
+    val moleculeIndex: Int,
+    val atomIndex: Map<Int, Atom>,
+): Molecule(atoms = atomIndex.values.toMutableList())
+
 fun readLampsFullFile(content: String) = with(readLampsSnapshotFile(content)) {
     first
         .map {
-            val index = it[0]
+            val index = it[0].toInt()
             val molecule = it[1]
             val atomType = it[2]
             val charge = it[3]
             val x = it[4].toDouble()
             val y = it[5].toDouble()
             val z = it[6].toDouble()
-            Triple(index, molecule.toInt() , ChargedAtom(Point(x, y, z), 1.0, charge.toDouble(), atomType.toInt()))
+            Pair(molecule.toInt(), index to ChargedAtom(Point(x, y, z), 1.0, charge.toDouble(), atomType.toInt()))
         }
         .groupBy { it.first }
-        // TODO: fix me
-        .map { Molecule(it.value.map { it.second }.toMutableList(), type = it.key) } to second
+        .map {
+            val atomsWithIndex = it.value.map { it.second }.toMap()
+            IndexedMolecule(it.key, atomsWithIndex)
+        } to second
 }
 
 data class InfoMaps(
@@ -52,7 +60,8 @@ data class InfoMaps(
     val dihedralMap: MutableMap<Int, Dihedral> = mutableMapOf(),
     val massMap: MutableMap<Int, Double> = mutableMapOf(),
 )
-fun readInputFileFull(content: String): Pair<Environment,InfoMaps> {
+
+fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
 
     val env = Environment()
 
@@ -66,7 +75,7 @@ fun readInputFileFull(content: String): Pair<Environment,InfoMaps> {
 
 
     val tokenPositionMap = InputFileTokens.entries.associateWith { content.indexOf(it.token) }
-        .filterNot{ it.value == -1 }.toMutableMap()
+        .filterNot { it.value == -1 }.toMutableMap()
 
     tokenPositionMap[InputFileTokens.BEGIN] = 0
     tokenPositionMap[InputFileTokens.END] = content.length
@@ -98,7 +107,10 @@ fun readInputFileFull(content: String): Pair<Environment,InfoMaps> {
                 .filterNot { it.isBlank() }
                 .map { it.split(" ", "#").filter { it.isNotBlank() } }
                 .map {
-                    BondCoefficient(*it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(), type = it[0].toInt())
+                    BondCoefficient(
+                        *it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(),
+                        type = it[0].toInt()
+                    )
                 }
                 .forEach { env.add(it) }
         }
@@ -112,7 +124,10 @@ fun readInputFileFull(content: String): Pair<Environment,InfoMaps> {
                 .filterNot { it.isBlank() }
                 .map { it.split(" ", "#").filter { it.isNotBlank() } }
                 .map {
-                    AngleCoefficient(*it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(), type = it[0].toInt())
+                    AngleCoefficient(
+                        *it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(),
+                        type = it[0].toInt()
+                    )
                 }
                 .forEach { env.add(it) }
         }
@@ -125,7 +140,10 @@ fun readInputFileFull(content: String): Pair<Environment,InfoMaps> {
                 .filterNot { it.isBlank() }
                 .map { it.split(" ", "#").filter { it.isNotBlank() } }
                 .map {
-                    DihedralCoefficient(*it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(), type = it[0].toInt())
+                    DihedralCoefficient(
+                        *it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(),
+                        type = it[0].toInt()
+                    )
                 }
                 .forEach { env.add(it) }
         }

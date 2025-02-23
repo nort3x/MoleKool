@@ -23,7 +23,18 @@ data class Box(
         zLow to zHigh,
     )
 
-    val xLow
+    val corners: List<Point>
+        get() = listOf(
+            Point(xLow, yLow, zLow), // 000
+            Point(xLow, yLow, zHigh), // 001
+            Point(xLow, yHigh, zLow), // 010
+            Point(xLow, yHigh, zHigh), // 011
+            Point(xHigh, yLow, zLow), // 100
+            Point(xHigh, yLow, zHigh), // 101
+            Point(xHigh, yHigh, zLow), // 110
+            Point(xHigh, yHigh, zHigh), // 111
+        )
+	val xLow
         get() = xBoundary.first.toDouble()
     val xHigh
         get() = xBoundary.second.toDouble()

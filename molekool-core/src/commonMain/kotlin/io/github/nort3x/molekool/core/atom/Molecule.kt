@@ -5,13 +5,14 @@ open class Molecule(
     val bonds: MutableList<Bond> = mutableListOf(),
     val angles: MutableList<Angle> = mutableListOf(),
     val dihedral: MutableList<Dihedral> = mutableListOf(),
-    override val type: Int,
+    override val type: Int = 0,
 ) : MultiAtomEntity(
     * (bonds + angles + dihedral)
         .flatMap { it.subAtoms.asSequence() }
         .plus(atoms).toTypedArray(),
 ),
     EntityGenerator, Cloneable<Molecule> {
+
     override fun generate(): Array<Trackable> =
         (atoms + bonds + angles + dihedral)
             .flatMap { it.generate().asSequence() }
@@ -19,11 +20,13 @@ open class Molecule(
             .toTypedArray()
 
     override fun copy(): Molecule {
-        val atomCopies = atoms.map { it.copy() }.toMutableList()
-        fun findAtomFromCopy(atom: Atom): Atom = TODO()
+        val atomsWithIndex = this.subAtoms.mapIndexed { index, atom -> atom to index }.toMap()
+        val copiedAtoms = atomsWithIndex.map { it.value to it.key.copy() }.toMap()
+
+        fun findAtomFromCopy(atom: Atom): Atom = copiedAtoms[atomsWithIndex[atom]!!]!!
 
         return Molecule(
-            atomCopies,
+            copiedAtoms.values.toMutableList(),
             bonds.map { Bond(findAtomFromCopy(it.first), findAtomFromCopy(it.second), it.type) }.toMutableList(),
             angles.map {
                 Angle(
