@@ -2,9 +2,7 @@ package io.github.nort3x.molekool.core.lattice.crystal
 
 import io.github.nort3x.molekool.core.Environment
 import io.github.nort3x.molekool.core.atom.Atom
-import io.github.nort3x.molekool.core.atom.EntityGenerator
 import io.github.nort3x.molekool.core.atom.Molecule
-import io.github.nort3x.molekool.core.atom.Trackable
 import io.github.nort3x.molekool.core.geomertry.point.Point
 import io.github.nort3x.molekool.core.geomertry.point.length
 import io.github.nort3x.molekool.core.lattice.crystal.site.Famous
@@ -35,7 +33,7 @@ abstract class Crystal<T>(val unitCell: UnitCell) {
                     box.xBoundary.length,
                     box.yBoundary.length,
                     box.zBoundary.length,
-                )
+                ),
             ) {
                 override fun generate(basePoint: Point): List<Atom> =
                     env.atoms.map {
@@ -51,7 +49,7 @@ abstract class Crystal<T>(val unitCell: UnitCell) {
                     box.xBoundary.length,
                     box.yBoundary.length,
                     box.zBoundary.length,
-                )
+                ),
             ) {
                 override fun generate(basePoint: Point): List<Molecule> =
                     env.molecules.map {
@@ -61,7 +59,6 @@ abstract class Crystal<T>(val unitCell: UnitCell) {
                     }
             }
         }
-
 
         val graphene = Graphene
         val famous = Famous

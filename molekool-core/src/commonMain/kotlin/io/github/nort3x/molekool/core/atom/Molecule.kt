@@ -15,7 +15,6 @@ open class Molecule(
             .distinct()
             .toTypedArray()
 
-
     override val subAtoms: Array<Atom>
         get() = generate().filterIsInstance<Atom>().toTypedArray()
 
@@ -33,12 +32,12 @@ open class Molecule(
                     findAtomFromCopy(it.first),
                     findAtomFromCopy(it.second),
                     findAtomFromCopy(it.third),
-                    it.type
+                    it.type,
                 )
             }.toMutableList(),
             dihedral.map { Dihedral(*it.subAtoms.map(::findAtomFromCopy).toTypedArray(), type = it.type) }
                 .toMutableList(),
-            type
+            type,
         )
     }
 }

@@ -18,8 +18,8 @@ class RepositionTest {
         val m = Molecule(
             mutableListOf(
                 a1,
-                a2
-            )
+                a2,
+            ),
         )
 
         (m.position - Point.origin).norm shouldBeLessThan 10e-5
@@ -43,8 +43,8 @@ class RepositionTest {
             mutableListOf(
                 a1,
                 a3,
-                a2
-            )
+                a2,
+            ),
         )
 
         (0..100).map { Point.randomOrientation }
@@ -56,7 +56,6 @@ class RepositionTest {
         p1BeforeMove shouldBeAlmostBe a1.position
     }
 
-
     @Test
     fun `move molecule test`() {
         val water = H2O(Point.xHat)
@@ -66,5 +65,4 @@ class RepositionTest {
 
         water.position shouldBeAlmostBe Point.zHat
     }
-
 }

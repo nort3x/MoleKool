@@ -20,7 +20,6 @@ allprojects {
 }
 val kotestVersion = libs.versions.kotest.get()
 
-
 subprojects {
 
     apply {

@@ -5,7 +5,6 @@ import io.kotest.matchers.Matcher
 import io.kotest.matchers.MatcherResult
 import io.kotest.matchers.should
 
-
 fun beAlmost(expect: Point) =
     object : Matcher<Point> {
         override fun test(value: Point) = MatcherResult(
@@ -17,4 +16,3 @@ fun beAlmost(expect: Point) =
 
 infix fun Point.shouldBeAlmostBe(other: Point) =
     this should beAlmost(other)
-

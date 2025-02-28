@@ -9,10 +9,10 @@ import kotlin.test.Test
 
 class DeepCopyTest {
     @Test
-    fun `test copy of molecule`(){
+    fun `test copy of molecule`() {
         val molecule = Molecule(mutableListOf(atomOf(AtomicMass.He, Point.origin)))
 
-        val moleculeCopy = molecule.copy();
+        val moleculeCopy = molecule.copy()
 
         moleculeCopy shouldNotBeSameInstanceAs molecule
         moleculeCopy.atoms.first() shouldNotBeSameInstanceAs molecule.atoms.first()

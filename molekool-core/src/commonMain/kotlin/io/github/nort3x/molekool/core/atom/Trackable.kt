@@ -8,7 +8,6 @@ abstract class Trackable {
 
     val id = idGen.incrementAndGet()
 
-
     companion object {
         private val idGen = atomic(0L)
     }

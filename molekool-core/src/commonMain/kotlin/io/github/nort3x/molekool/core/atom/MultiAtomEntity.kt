@@ -15,10 +15,10 @@ abstract class MultiAtomEntity : Trackable(), EntityGenerator, Moveable {
         get() = subAtoms.map { it.position }.average()
 
     override fun baseTo(newPosition: Point) {
-        val centerOfMass = this.position  // Calculate the center of mass once
+        val centerOfMass = this.position // Calculate the center of mass once
         for (atom in subAtoms) {
-            val relative = atom.position - centerOfMass  // Calculate the relative position
-            atom.baseTo(relative + newPosition)  // Apply the new position
+            val relative = atom.position - centerOfMass // Calculate the relative position
+            atom.baseTo(relative + newPosition) // Apply the new position
         }
     }
 }

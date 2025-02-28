@@ -1,5 +1,4 @@
 import io.github.nort3x.molekool.bind.lammps.AtomStyle
-import io.github.nort3x.molekool.bind.lammps.readLampsFullFile
 import io.github.nort3x.molekool.bind.lammps.toLammpsInputFile
 import io.github.nort3x.molekool.bind.readResource
 import io.github.nort3x.molekool.core.Environment
@@ -8,9 +7,7 @@ import io.github.nort3x.molekool.core.lattice.crystal.Crystal
 import io.github.nort3x.molekool.core.lattice.crystal.usingCrystal
 
 fun main() {
-
     val seedEnv = run {
-
         val res = readResource("condensate.dat")!!
 
         val env = Environment()
@@ -31,7 +28,6 @@ fun main() {
         return@run env
     }
 
-
     val env = Environment()
 
     var total = 0.0
@@ -44,8 +40,9 @@ fun main() {
         }
         .forEachIndexed { i, it ->
             env.add(it)
-            if (i % 10 == 0)
+            if (i % 10 == 0) {
                 println("done %${i * 100 / total}")
+            }
         }
 
     println("done creating environemnt")
@@ -59,6 +56,4 @@ fun main() {
 //        .init()
 //        .addEnvironment(env)
 //        .runAndWaitUntilExit()
-
-
 }

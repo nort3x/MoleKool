@@ -35,7 +35,6 @@ fun Environment.toLammpsInputFile(
     val moleculeLessAtoms = labeledAtoms.filterNot { (atom, _) -> moleculeAtomsSet.contains(atom) }
     println("generated molecule-less Atoms")
 
-
     FileOutputStream(File(filePath)).use { oups ->
 
         oups + "# generated with molekool-gen"
@@ -59,7 +58,7 @@ fun Environment.toLammpsInputFile(
         oups + ""
         oups + InputFileTokens.MASSES.token
         oups + ""
-        (1 until  this.atoms.minOf { it.type }).forEach{
+        (1 until this.atoms.minOf { it.type }).forEach {
             oups + "$it 0.0"
         }
         this.atoms.distinctBy { it.type }

@@ -27,11 +27,10 @@ fun readLampsSnapshotFile(content: String): Pair<Sequence<List<String>>, Sequenc
             .map { it.split(" ").filterNot { it.isBlank() } }
             .map { it }
 
-
 data class IndexedMolecule(
     val moleculeIndex: Int,
     val atomIndex: Map<Int, Atom>,
-): Molecule(atoms = atomIndex.values.toMutableList())
+) : Molecule(atoms = atomIndex.values.toMutableList())
 
 fun readLampsFullFile(content: String) = with(readLampsSnapshotFile(content)) {
     first
@@ -62,7 +61,6 @@ data class InfoMaps(
 )
 
 fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
-
     val env = Environment()
 
     val atomMap: MutableMap<Int, ChargedAtom> = mutableMapOf()
@@ -72,7 +70,6 @@ fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
     val dihedralMap: MutableMap<Int, Dihedral> = mutableMapOf()
 
     val massMap: MutableMap<Int, Double> = mutableMapOf()
-
 
     val tokenPositionMap = InputFileTokens.entries.associateWith { content.indexOf(it.token) }
         .filterNot { it.value == -1 }.toMutableMap()
@@ -109,12 +106,11 @@ fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
                 .map {
                     BondCoefficient(
                         *it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(),
-                        type = it[0].toInt()
+                        type = it[0].toInt(),
                     )
                 }
                 .forEach { env.add(it) }
         }
-
 
         tokenPositionMap[InputFileTokens.ANGLE_COEFFS]?.let { angleCoeff ->
             val end = tokenPositionMap.values.sorted().first { it > angleCoeff }
@@ -126,7 +122,7 @@ fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
                 .map {
                     AngleCoefficient(
                         *it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(),
-                        type = it[0].toInt()
+                        type = it[0].toInt(),
                     )
                 }
                 .forEach { env.add(it) }
@@ -142,13 +138,12 @@ fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
                 .map {
                     DihedralCoefficient(
                         *it.drop(1).mapNotNull { it.toDoubleOrNull() }.toDoubleArray(),
-                        type = it[0].toInt()
+                        type = it[0].toInt(),
                     )
                 }
                 .forEach { env.add(it) }
         }
     }
-
 
     // initialize atoms
     run {
@@ -239,13 +234,12 @@ fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
                     val index = it[0].toInt()
                     val dihedralType = it[1].toInt()
 
-
                     val dihedral = Dihedral(
                         *it.drop(2)
                             .mapNotNull { it.toIntOrNull() }
                             .map { atomMap[it]!! }
                             .toTypedArray(),
-                        type = dihedralType
+                        type = dihedralType,
                     )
                     dihedralMap[index] = dihedral
 
@@ -254,16 +248,12 @@ fun readInputFileFull(content: String): Pair<Environment, InfoMaps> {
         }
     }
 
-
-
     return env to InfoMaps(
         atomMap,
         moleculeMap,
         bondMap,
         angleMap,
         dihedralMap,
-        massMap
+        massMap,
     )
-
 }
-

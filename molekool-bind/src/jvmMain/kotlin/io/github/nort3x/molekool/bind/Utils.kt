@@ -9,4 +9,4 @@ fun OutputStream.writeLine(string: String): OutputStream =
 
 operator fun OutputStream.plus(string: String) = writeLine(string)
 
-inline fun readResource(name: String)  = object {}.javaClass.classLoader.getResourceAsStream(name)?.bufferedReader()?.readText()
+inline fun readResource(name: String) = object {}.javaClass.classLoader.getResourceAsStream(name)?.bufferedReader()?.readText()

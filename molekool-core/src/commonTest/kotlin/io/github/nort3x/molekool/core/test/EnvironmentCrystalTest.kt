@@ -50,6 +50,5 @@ class EnvironmentCrystalTest {
         asList.forEachIndexed { i, molecule ->
             molecule.position shouldBeAlmostBe Point(i, 0, 0)
         }
-
     }
 }

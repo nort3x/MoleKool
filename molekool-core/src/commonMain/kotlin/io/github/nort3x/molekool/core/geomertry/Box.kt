@@ -34,7 +34,7 @@ data class Box(
             Point(xHigh, yHigh, zLow), // 110
             Point(xHigh, yHigh, zHigh), // 111
         )
-	val xLow
+    val xLow
         get() = xBoundary.first.toDouble()
     val xHigh
         get() = xBoundary.second.toDouble()

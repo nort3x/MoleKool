@@ -103,7 +103,7 @@ class Environment {
         )
     }
 
-    fun clear(){
+    fun clear() {
         entities.clear()
         boundingBox = null
     }

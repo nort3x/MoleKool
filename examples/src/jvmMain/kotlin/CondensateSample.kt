@@ -1,16 +1,8 @@
-import de.fabmax.kool.util.Color
-import io.github.nort3x.molekool.bind.lammps.AtomStyle
-import io.github.nort3x.molekool.bind.lammps.IndexedMolecule
-import io.github.nort3x.molekool.bind.lammps.InfoMaps
-import io.github.nort3x.molekool.bind.lammps.readInputFileFull
-import io.github.nort3x.molekool.bind.lammps.readLampsFullFile
-import io.github.nort3x.molekool.bind.lammps.toLammpsInputFile
+import io.github.nort3x.molekool.bind.lammps.*
 import io.github.nort3x.molekool.bind.readResource
 import io.github.nort3x.molekool.core.Environment
 import io.github.nort3x.molekool.core.atom.Atom
-import io.github.nort3x.molekool.core.atom.EntityGenerator
 import io.github.nort3x.molekool.core.atom.Molecule
-import io.github.nort3x.molekool.core.atom.Trackable
 import io.github.nort3x.molekool.core.geomertry.Box
 import io.github.nort3x.molekool.core.geomertry.isInside
 import io.github.nort3x.molekool.core.geomertry.point.length
@@ -18,10 +10,6 @@ import io.github.nort3x.molekool.core.lattice.Grid3D
 import io.github.nort3x.molekool.core.lattice.crystal.Crystal
 import io.github.nort3x.molekool.core.lattice.crystal.usingCrystal
 import io.github.nort3x.molekool.core.lattice.spanInAllDirections
-import io.github.nort3x.molekool.core.utils.print
-import io.github.nort3x.molekool.visual.KoolVisualizer
-import io.github.nort3x.molekool.visual.plugins.AxisPlugin
-import io.github.nort3x.molekool.visual.plugins.BoxViewerPlugin
 import kotlin.math.ceil
 
 fun readCondensateEnv(): Pair<List<IndexedMolecule>, Sequence<List<String>>> {
@@ -35,12 +23,8 @@ fun readInputFile(): Pair<Environment, InfoMaps> {
 }
 
 fun main() {
-
     val seedEnv = run {
-
-
         val sampleBox = Box(65 to 85, 60 to 80, 50 to 65)
-
 
         val fullEnvInfoMaps = readInputFile()
         val env = Environment()
@@ -57,7 +41,6 @@ fun main() {
                 participatingAtomsIndexes.putAll(it.atomIndex)
                 molecules.add(it.atomIndex.keys.toList())
             }
-
 
         val participatingAtoms = fullEnvInfoMaps.second.atomMap.filterKeys { participatingAtomsIndexes.contains(it) }
         // reposition
@@ -79,22 +62,20 @@ fun main() {
                     atoms,
                     bonds.filter { it.value.subAtoms.all { atoms.contains(it) } }.map { it.value }.toMutableList(),
                     angles.filter { it.value.subAtoms.all { atoms.contains(it) } }.map { it.value }.toMutableList(),
-                    dihedrals.filter { it.value.subAtoms.all { atoms.contains(it) } }.map { it.value }.toMutableList()
+                    dihedrals.filter { it.value.subAtoms.all { atoms.contains(it) } }.map { it.value }.toMutableList(),
                 )
             }
 
         participateMolecule
             .forEach { env.add(it) }
 
-
-
         env.boundingBox = Box(
-            sampleBox.xLow - 1.5,
-            sampleBox.xHigh + 1.5,
-            sampleBox.yLow - 1.5,
-            sampleBox.yHigh + 1.5,
-            sampleBox.zLow - 1.5,
-            sampleBox.zHigh + 1.5,
+            sampleBox.xLow - 0.0,
+            sampleBox.xHigh + 0.0,
+            sampleBox.yLow - 0.0,
+            sampleBox.yHigh + 0.0,
+            sampleBox.zLow - 0.0,
+            sampleBox.zHigh + 0.0,
         )
 
 //        KoolVisualizer()
@@ -137,7 +118,6 @@ fun main() {
         env.add(it)
     }
 
-
     val simulationBox = env.enclosingBox
     val sheetBox = sheetEnv.enclosingBox(3.4)
 
@@ -150,25 +130,22 @@ fun main() {
 //        it.move(middle - centerOfMass)
 //    }
 
-    val xLen = simulationBox.xBoundary.length / seedEnv.enclosingBox.xBoundary.length;
-    val yLen = simulationBox.yBoundary.length / seedEnv.enclosingBox.yBoundary.length;
-    val zLen = simulationBox.zBoundary.length / seedEnv.enclosingBox.zBoundary.length;
-
+    val xLen = simulationBox.xBoundary.length / seedEnv.enclosingBox.xBoundary.length
+    val yLen = simulationBox.yBoundary.length / seedEnv.enclosingBox.yBoundary.length
+    val zLen = simulationBox.zBoundary.length / seedEnv.enclosingBox.zBoundary.length
 
     Grid3D(ceil(xLen).toInt(), ceil(yLen).toInt(), ceil(zLen).toInt())
         .points
         .spanInAllDirections()
         .usingCrystal(Crystal.fromEnvironmentMolecules(seedEnv))
-        .filter { it.position isInside simulationBox }
-        .filterNot { it.position isInside sheetBox }
+        .filter { it.subAtoms.all { it.position isInside simulationBox } }
+        .filterNot { it.subAtoms.any { it.position isInside sheetBox } }
         .shuffled()
-        .forEachIndexed() { i, it ->
-//            if (i % 2 == 0)
-                env.add(it)
+        .forEachIndexed { i, it ->
+            env.add(it)
         }
 
     env.entities.addAll(sheetEnv.entities)
-
 
 //    KoolVisualizer()
 //        .withDefaultConfig()
@@ -178,10 +155,12 @@ fun main() {
 //        .addEnvironment(env)
 //        .runAndWaitUntilExit()
 
-
     env.add(seedEnv.coefficients)
     env.add(sheetEnv.coefficients)
 
-    env.toLammpsInputFile("input.lmp", atomStyle = AtomStyle.FULL)
-
+    val lmp = LAMMPS()
+    lmp.includeEnvironment(env, "atom_data.lmp")
+    lmp.addScriptFile("in.lmp")
+    lmp.includeFile("CH.airebo_real")
+    lmp.runSerial()
 }
