@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.publish)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.atomicfu)
     signing
 }
 
@@ -17,6 +18,8 @@ allprojects {
     group = "io.github.nort3x"
     version = "1.0.0.alpha-1"
 }
+val kotestVersion = libs.versions.kotest.get()
+
 
 subprojects {
 
@@ -24,6 +27,7 @@ subprojects {
         plugin("org.jetbrains.kotlin.multiplatform")
         plugin("org.jlleitschuh.gradle.ktlint")
         plugin("com.vanniktech.maven.publish")
+        plugin("org.jetbrains.kotlinx.atomicfu")
         plugin("signing")
     }
 
@@ -47,6 +51,8 @@ subprojects {
         sourceSets {
             commonTest.dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
+                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+                implementation("io.kotest:kotest-framework-engine:$kotestVersion")
             }
         }
         targets.all {

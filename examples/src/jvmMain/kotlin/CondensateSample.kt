@@ -1,3 +1,4 @@
+import de.fabmax.kool.util.Color
 import io.github.nort3x.molekool.bind.lammps.AtomStyle
 import io.github.nort3x.molekool.bind.lammps.IndexedMolecule
 import io.github.nort3x.molekool.bind.lammps.InfoMaps
@@ -51,6 +52,7 @@ fun main() {
             .first
             .filterNot { it.subAtoms.any { it.type < 5 } }
             .filter { it.position isInside sampleBox }
+            .filter { it.subAtoms.all { it.position isInside sampleBox } }
             .forEach {
                 participatingAtomsIndexes.putAll(it.atomIndex)
                 molecules.add(it.atomIndex.keys.toList())
@@ -85,6 +87,16 @@ fun main() {
             .forEach { env.add(it) }
 
 
+
+        env.boundingBox = Box(
+            sampleBox.xLow - 1.5,
+            sampleBox.xHigh + 1.5,
+            sampleBox.yLow - 1.5,
+            sampleBox.yHigh + 1.5,
+            sampleBox.zLow - 1.5,
+            sampleBox.zHigh + 1.5,
+        )
+
 //        KoolVisualizer()
 //            .withDefaultConfig()
 //            .addPlugin(BoxViewerPlugin(env.enclosingBox))
@@ -93,6 +105,8 @@ fun main() {
 //            .init()
 //            .addEnvironment(env)
 //            .runAndWaitUntilExit()
+
+        env.add(fullEnvInfoMaps.first.coefficients)
 
         return@run env
     }
@@ -125,7 +139,7 @@ fun main() {
 
 
     val simulationBox = env.enclosingBox
-    val sheetBox = sheetEnv.enclosingBox(0.2)
+    val sheetBox = sheetEnv.enclosingBox(3.4)
 
     env.clear()
     env.boundingBox = simulationBox
@@ -149,19 +163,24 @@ fun main() {
         .filterNot { it.position isInside sheetBox }
         .shuffled()
         .forEachIndexed() { i, it ->
-            env.add(it)
+//            if (i % 2 == 0)
+                env.add(it)
         }
 
     env.entities.addAll(sheetEnv.entities)
 
 
-    KoolVisualizer()
-        .withDefaultConfig()
-        .addPlugin(BoxViewerPlugin(env.enclosingBox))
-        .addPlugin(AxisPlugin())
-        .init()
-        .addEnvironment(env)
-        .runAndWaitUntilExit()
+//    KoolVisualizer()
+//        .withDefaultConfig()
+//        .addPlugin(BoxViewerPlugin(env.enclosingBox))
+//        .addPlugin(AxisPlugin())
+//        .init()
+//        .addEnvironment(env)
+//        .runAndWaitUntilExit()
+
+
+    env.add(seedEnv.coefficients)
+    env.add(sheetEnv.coefficients)
 
     env.toLammpsInputFile("input.lmp", atomStyle = AtomStyle.FULL)
 
