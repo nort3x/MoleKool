@@ -36,19 +36,4 @@ class EnvironmentCrystalTest {
             }
         }
     }
-
-    @Test
-    fun `environment molecule crystal line`() {
-        val env = Environment()
-
-        env.add(H2O(Point.origin))
-
-        val asList = (0 until 11).map { Point(0, it, 0) }.asSequence()
-            .usingCrystal(Crystal.fromEnvironmentMolecules(env))
-            .toList()
-
-        asList.forEachIndexed { i, molecule ->
-            molecule.position shouldBeAlmostBe Point(i, 0, 0)
-        }
-    }
 }

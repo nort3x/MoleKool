@@ -16,7 +16,7 @@ allprojects {
     }
 
     group = "io.github.nort3x"
-    version = "1.0.0.alpha-1"
+    version = "1.0.0.alpha-2"
 }
 val kotestVersion = libs.versions.kotest.get()
 
