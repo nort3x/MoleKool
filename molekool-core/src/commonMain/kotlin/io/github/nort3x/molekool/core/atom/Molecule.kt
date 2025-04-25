@@ -5,40 +5,39 @@ open class Molecule(
     val bonds: MutableList<Bond> = mutableListOf(),
     val angles: MutableList<Angle> = mutableListOf(),
     val dihedral: MutableList<Dihedral> = mutableListOf(),
-    override val type: Int,
-) : MultiAtomEntity(
-    * (bonds + angles + dihedral)
-        .flatMap { it.subAtoms.asSequence() }
-        .plus(atoms).toTypedArray(),
-),
-    EntityGenerator {
+    override val type: Int = 0,
+) : MultiAtomEntity(), EntityGenerator, Cloneable<Molecule> {
+
     override fun generate(): Array<Trackable> =
         (atoms + bonds + angles + dihedral)
             .flatMap { it.generate().asSequence() }
             .plus(this)
+            .distinct()
             .toTypedArray()
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Molecule) return false
-        if (!super.equals(other)) return false
+    override val subAtoms: Array<Atom>
+        get() = generate().filterIsInstance<Atom>().toTypedArray()
 
-        if (atoms != other.atoms) return false
-        if (bonds != other.bonds) return false
-        if (angles != other.angles) return false
-        if (dihedral != other.dihedral) return false
-        if (type != other.type) return false
+    override fun copy(): Molecule {
+        val atomsWithIndex = subAtoms.mapIndexed { index, atom -> atom to index }.toMap()
+        val copiedAtoms = atomsWithIndex.map { it.value to it.key.copy() }.toMap()
 
-        return true
-    }
+        fun findAtomFromCopy(atom: Atom): Atom = copiedAtoms[atomsWithIndex[atom]!!]!!
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + atoms.hashCode()
-        result = 31 * result + bonds.hashCode()
-        result = 31 * result + angles.hashCode()
-        result = 31 * result + dihedral.hashCode()
-        result = 31 * result + type
-        return result
+        return Molecule(
+            copiedAtoms.values.toMutableList(),
+            bonds.map { Bond(findAtomFromCopy(it.first), findAtomFromCopy(it.second), it.type) }.toMutableList(),
+            angles.map {
+                Angle(
+                    findAtomFromCopy(it.first),
+                    findAtomFromCopy(it.second),
+                    findAtomFromCopy(it.third),
+                    it.type,
+                )
+            }.toMutableList(),
+            dihedral.map { Dihedral(*it.subAtoms.map(::findAtomFromCopy).toTypedArray(), type = it.type) }
+                .toMutableList(),
+            type,
+        )
     }
 }

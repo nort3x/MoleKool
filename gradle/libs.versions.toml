@@ -5,7 +5,7 @@ kotlin = "2.1.10"
 kotlinx = "1.10.1"
 kool = "0.16.0"
 lwjgl = "3.3.5"
-
+kotest = "5.9.1"
 
 [libraries]
 kotlin-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx" }
@@ -13,6 +13,7 @@ kool-core = { module = "de.fabmax.kool:kool-core", version.ref = "kool" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-publish = {id = "com.vanniktech.maven.publish", version = "0.30.0"}
+publish = { id = "com.vanniktech.maven.publish", version = "0.30.0" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.2" }
+atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version = "0.27.0" }
 

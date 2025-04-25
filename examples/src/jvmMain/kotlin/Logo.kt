@@ -15,7 +15,6 @@ import io.github.nort3x.molekool.visual.KoolVisualizer
 import io.github.nort3x.molekool.visual.plugins.BoxViewerPlugin
 
 fun main() {
-
     // your world
     val env = Environment()
 
@@ -59,5 +58,4 @@ fun main() {
         .init()
         .addEnvironment(env)
         .runAndWaitUntilExit()
-
 }

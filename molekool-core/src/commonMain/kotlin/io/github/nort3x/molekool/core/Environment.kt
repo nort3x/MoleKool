@@ -102,4 +102,9 @@ class Environment {
             zHigh + offset,
         )
     }
+
+    fun clear() {
+        entities.clear()
+        boundingBox = null
+    }
 }

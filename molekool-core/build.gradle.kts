@@ -13,12 +13,6 @@ kotlin {
             }
         }
     }
-    wasmJs {
-        nodejs()
-    }
-    wasmWasi {
-        nodejs()
-    }
 
 //    androidNativeX64()
 //    androidNativeArm64()

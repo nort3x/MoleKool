@@ -6,6 +6,7 @@ kotlin {
         dependencies {
             implementation(project(":molekool-core"))
             implementation(project(":molekool-visual"))
+            implementation(project(":molekool-bind"))
         }
     }
 }
